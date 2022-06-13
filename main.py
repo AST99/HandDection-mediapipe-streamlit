@@ -1,3 +1,5 @@
+from ast import Break
+import this
 import cv2
 import streamlit as st
 import mediapipe as mp
@@ -11,31 +13,19 @@ import mode as m
 DEMO_IMAGE = 'demo/demo.jpg'
 DEMO_VIDEO = 'demo/demo.mp4'
 
-# Basic App Scaffolding
-st.title('Face Mesh App using Streamlit')
-
-## Add Sidebar and Main Window style
-st.markdown(
-    """
-    <style>
-    [data-testid="stSidebar"][aria-expanded="true"] > div:first-child{
-        width: 350px
-    }
-    [data-testid="stSidebar"][aria-expanded="false"] > div:first-child{
-        width: 350px
-        margin-left: -350px
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+cap = cv2.VideoCapture(0)
+cap.set(3,1280)
+cap.set(4,960)
 
 ## Create Sidebar
 st.sidebar.title('Hand detection Sidebar')
 
+
+st.title('Projet réaliser par TOURE Abou-bakar Sidik et BOMI Gael Victoire')
+
 ## Define available pages in selection box
 app_mode = st.sidebar.selectbox(
-    'App Mode',
+    'Mode',
     ['À propos du projet','Alphabet','Compteur de doigts','Selfi']
 )
 
@@ -70,11 +60,16 @@ def image_resize(image, width=None, height=None, inter=cv.INTER_AREA):
 # About Page
 
 if app_mode == 'À propos du projet':
+    st.sidebar.empty()
+    st.header('Application de détection des mains avec Streamlit.\n')
+    
     st.markdown('''
-                ## Face Mesh \n
-                In this application we are using **MediaPipe** for creating a Face Mesh. **StreamLit** is to create 
-                the Web Graphical User Interface (GUI) \n
+                Dans cette application permet la détection des mains avec MediaPipe.\n
+                L'application à des fonctionnalités tels que la prise de photo, compteur de doights, et l'alphabet en langue des signes Américain.
+                \nStreamLit permet de créer l'interface utilisateur graphique Web (GUI) \n
     ''')
+    cap.release()
+    cv2.destroyAllWindows()
 
     ## Add Sidebar and Window style
     st.markdown(
@@ -92,11 +87,14 @@ if app_mode == 'À propos du projet':
         unsafe_allow_html=True,
     )
 
-# Image Page
-
 elif app_mode == 'Alphabet':
-
+  cv2.destroyAllWindows()
+  st.sidebar.empty()
   st.sidebar.markdown('---')
+  st.empty()
+  
+  st.sidebar.image('media/image_2.png')
+  m.alphabet()
 
   ## Add Sidebar and Window style
   st.markdown(
@@ -114,21 +112,16 @@ elif app_mode == 'Alphabet':
         unsafe_allow_html=True,
   )
     
-  st.sidebar.image('image_2.png')
-  m.alphabet()
-  
-
-
-
-# Video Page
-
 elif app_mode == 'Compteur de doigts':
-
+    st.empty()
+    st.sidebar.empty()
     st.set_option('deprecation.showfileUploaderEncoding', False)
 
     drawing_spec = mp.solutions.drawing_utils.DrawingSpec(thickness=2, circle_radius=1)
 
     st.sidebar.markdown('---')
+
+    st.image("media/Hand_GesturesCount.png")
 
     ## Add Sidebar and Window style
     st.markdown(
@@ -148,17 +141,15 @@ elif app_mode == 'Compteur de doigts':
     m.modeSimple()
 
 
-
 elif app_mode == 'Selfi':
+    st.empty()
+    st.set_option('deprecation.showfileUploaderEncoding', False)
 
-  st.set_option('deprecation.showfileUploaderEncoding', False)
-
-  drawing_spec = mp.solutions.drawing_utils.DrawingSpec(thickness=2, circle_radius=1)
-
-  st.sidebar.markdown('---')
-
-  ## Add Sidebar and Window style
-  st.markdown(
+    drawing_spec = mp.solutions.drawing_utils.DrawingSpec(thickness=2, circle_radius=1)
+    st.image('media/qqs.png')
+    
+   ## Add Sidebar and Window style
+    st.markdown(
         """
         <style>
         [data-testid="stSidebar"][aria-expanded="true"] > div:first-child{
@@ -171,5 +162,11 @@ elif app_mode == 'Selfi':
         </style>
         """,
         unsafe_allow_html=True,
-  )
-  m.selfi()
+    )
+    st.sidebar.markdown('---')
+    st.sidebar.markdown('Photos prises')
+    m.selfi()
+    
+
+
+  

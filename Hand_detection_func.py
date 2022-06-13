@@ -58,8 +58,8 @@ def detectHandsLandmarks(image, hands, draw=True, display = True):
         
         # Display the original input image and the output image.
         plt.figure(figsize=[15,15])
-        plt.subplot(121);plt.imshow(image[:,:,::-1]);plt.title("Original Image");plt.axis('off');
-        plt.subplot(122);plt.imshow(output_image[:,:,::-1]);plt.title("Output");plt.axis('off');
+        plt.subplot(121);plt.imshow(image[:,:,::-1]);plt.title("Original Image");plt.axis('off')
+        plt.subplot(122);plt.imshow(output_image[:,:,::-1]);plt.title("Output");plt.axis('off')
         
     # Otherwise
     else:
@@ -144,7 +144,7 @@ def countFingers(image, results, draw=True, display=True):
     if draw:
 
         # Write the total count of the fingers of both hands on the output image.
-        cv2.putText(output_image, " Total Fingers: ", (10, 25),cv2.FONT_HERSHEY_COMPLEX, 1, (20,255,155), 2)
+        cv2.putText(output_image, " Nombre de doights: ", (10, 25),cv2.FONT_HERSHEY_COMPLEX, 1, (20,255,155), 2)
         cv2.putText(output_image, str(sum(count.values())), (width//2-150,240), cv2.FONT_HERSHEY_SIMPLEX,
                     8.9, (20,255,155), 10, 10)
         
@@ -155,7 +155,8 @@ def countFingers(image, results, draw=True, display=True):
         
         # Display the output image.
         plt.figure(figsize=[10,10])
-        plt.imshow(output_image[:,:,::-1]);plt.title("Output Image");plt.axis('off')
+        plt.imshow(output_image[:,:,::-1]);plt.title("Output Image")
+        plt.axis('off')
     
     # Otherwise
     else:

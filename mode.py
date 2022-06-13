@@ -10,13 +10,13 @@ import matplotlib.pyplot as plt
 from ASL_Alphabet import prediction
 import Hand_detection_func as hdf
 
+cap = cv2.VideoCapture(0)
+cap.set(3,1280)
+cap.set(4,960)
+stframe = st.empty()
+
 def modeSimple():
     # For webcam input:
-    cap = cv2.VideoCapture(0)
-    cap.set(3,1280)
-    cap.set(4,960)
-    stframe = st.empty()
-
     while cap.isOpened():
         success, image = cap.read()
   
@@ -45,12 +45,6 @@ def modeSimple():
 
 
 def modeCompliquer():
-    # For webcam input:
-    cap = cv2.VideoCapture(0)
-    cap.set(3,1280)
-    cap.set(4,960)
-
-    stframe = st.empty()
 
     while cap.isOpened():
         success, image = cap.read()
@@ -87,11 +81,6 @@ def modeCompliquer():
 
 
 def alphabet():
-    cap = cv2.VideoCapture(0)
-    cap.set(3,1280)
-    cap.set(4,960)
-    stframe = st.empty()
-    
     SpelledWord = ""
     while cap.isOpened():
         success, image = cap.read()
@@ -103,7 +92,7 @@ def alphabet():
         try:
             SpelledWord = prediction.get_prediction(image)
             #cv2.putText(image,  SpelledWord, (50,50), 1, 2, 255)
-            cv2.putText(image,SpelledWord,(50,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 2, cv2.LINE_AA)
+            cv2.putText(image,SpelledWord,(50,150), cv2.FONT_HERSHEY_COMPLEX, 3, (20,255,155), 5, cv2.LINE_AA)
         except:
             pass
 
@@ -118,12 +107,6 @@ def alphabet():
 
 
 def selfi():
-    # Initialize the VideoCapture object to read from the webcam.
-    camera_video = cv2.VideoCapture(0)
-    camera_video.set(3,1280)
-    camera_video.set(4,960)
-
-    stframe = st.empty()
 
     # Read the filter image with its blue, green, red, and alpha channel.
     filter_imageBGRA = cv2.imread('media/filter.png', cv2.IMREAD_UNCHANGED)
@@ -145,10 +128,10 @@ def selfi():
     captured_image = None
 
     # Iterate until the webcam is accessed successfully.
-    while camera_video.isOpened():
+    while cap.isOpened():
     
         # Read a frame.
-        ok, frame = camera_video.read()
+        ok, frame = cap.read()
     
         # Check if frame is not read properly then continue to the next iteration to read the next frame.
         if not ok:
@@ -257,10 +240,11 @@ def selfi():
             
                 # Capture an image and store it in the disk.
                 cv2.imwrite('Image_Selfi/Captured_Image.png', captured_image)
+                
                 st.sidebar.image('Image_Selfi/Captured_Image.png')
             
                 # Display a black image.
-                cv2.imshow('Selfie-Capturing System', np.zeros((frame_height, frame_width)))
+               # cv2.imshow('Selfie-Capturing System', np.zeros((frame_height, frame_width)))
 
                 # Play the image capture music to indicate the an image is captured and wait for 100 milliseconds.
                 pygame.mixer.music.play()
