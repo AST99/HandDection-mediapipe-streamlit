@@ -1,17 +1,9 @@
-from ast import Break
-import this
 import cv2
 import streamlit as st
 import mediapipe as mp
 import cv2 as cv
 import numpy as np
-import tempfile
-import time
-from PIL import Image
 import mode as m
-
-DEMO_IMAGE = 'demo/demo.jpg'
-DEMO_VIDEO = 'demo/demo.mp4'
 
 cap = cv2.VideoCapture(0)
 cap.set(3,1280)
@@ -63,11 +55,10 @@ if app_mode == 'À propos du projet':
     st.sidebar.empty()
     st.header('Application de détection des mains avec Streamlit.\n')
     
-    st.markdown('''
-                Dans cette application permet la détection des mains avec MediaPipe.\n
-                L'application à des fonctionnalités tels que la prise de photo, compteur de doights, et l'alphabet en langue des signes Américain.
-                \nStreamLit permet de créer l'interface utilisateur graphique Web (GUI) \n
-    ''')
+    st.text('Dans cette application permet la détection des mains avec MediaPipe.\n')
+    st.text(" L'application à des fonctionnalités tels que:\n -la prise de photo,\n -compteur de doights\n -l'alphabet en langue des signes Américain.")
+    
+    st.text('\nStreamLit permet de créer l\'interface utilisateur graphique Web (GUI)')
     cap.release()
     cv2.destroyAllWindows()
 
