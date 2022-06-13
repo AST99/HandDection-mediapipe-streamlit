@@ -55,7 +55,7 @@ if app_mode == 'À propos du projet':
     st.sidebar.empty()
     st.header('Application de détection des mains avec Streamlit.\n')
     
-    st.text('Dans cette application permet la détection des mains avec MediaPipe.\n')
+    st.text('Cette application permet la détection des mains avec MediaPipe.\n')
     st.text(" L'application à des fonctionnalités tels que:\n -la prise de photo,\n -compteur de doights\n -l'alphabet en langue des signes Américain.")
     
     st.text('\nStreamLit permet de créer l\'interface utilisateur graphique Web (GUI)')
