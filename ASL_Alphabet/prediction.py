@@ -1,16 +1,11 @@
-from pyexpat import model
-import pandas as pd
-from pyexpat import model
-import pandas as pd
 import cv2
 from ASL_Alphabet import predictMethodes
 import mediapipe as mp
-import numpy as np
 import pickle
 
 #########Begin predictions
 ###Load model
-with open('ASL_model', 'rb') as f:
+with open('ASL_Alphabet/ASL_model', 'rb') as f:
     clf = pickle.load(f)
 
 mp_drawing = mp.solutions.drawing_utils

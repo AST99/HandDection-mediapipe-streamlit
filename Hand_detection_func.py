@@ -1,7 +1,4 @@
 import cv2
-import streamlit as st
-import numpy as np
-import cv2 as cv
 import mediapipe as mp
 import matplotlib.pyplot as plt
 
@@ -144,7 +141,7 @@ def countFingers(image, results, draw=True, display=True):
     if draw:
 
         # Write the total count of the fingers of both hands on the output image.
-        cv2.putText(output_image, " Nombre de doights: ", (10, 25),cv2.FONT_HERSHEY_COMPLEX, 1, (20,255,155), 2)
+        cv2.putText(output_image, " Nombre de doigts: ", (10, 25),cv2.FONT_HERSHEY_COMPLEX, 1, (20,255,155), 2)
         cv2.putText(output_image, str(sum(count.values())), (width//2-150,240), cv2.FONT_HERSHEY_SIMPLEX,
                     8.9, (20,255,155), 10, 10)
         

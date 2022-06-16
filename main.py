@@ -2,7 +2,6 @@ import cv2
 import streamlit as st
 import mediapipe as mp
 import cv2 as cv
-import numpy as np
 import mode as m
 
 cap = cv2.VideoCapture(0)
@@ -18,7 +17,7 @@ st.title('Projet réaliser par TOURE Abou-bakar Sidik et BOMI Gael Victoire')
 ## Define available pages in selection box
 app_mode = st.sidebar.selectbox(
     'Mode',
-    ['À propos du projet','Alphabet','Compteur de doigts','Selfi']
+    ['À propos du projet','Alphabet','Compteur de doigts','Selfi','Détecteur de port de masque']
 )
 
 # Resize Images to fit Container
@@ -52,15 +51,17 @@ def image_resize(image, width=None, height=None, inter=cv.INTER_AREA):
 # About Page
 
 if app_mode == 'À propos du projet':
-    st.sidebar.empty()
-    st.header('Application de détection des mains avec Streamlit.\n')
+    cap.release()
     
-    st.text('Cette application permet la détection des mains avec MediaPipe.\n')
-    st.text(" L'application à des fonctionnalités tels que:\n -la prise de photo,\n -compteur de doights\n -l'alphabet en langue des signes Américain.")
+    st.sidebar.empty()
+    st.header('Application de détection des mains et de visage avec Streamlit.\n')
+    
+    st.text('Cette application permet non seulement la détection des mains avec MediaPipe \nmais aussi la détection de visage.\n')
+    st.text("L'application à des fonctionnalités tels que:\n -la prise de photo,\n -compteur de doigts\n -l'alphabet en langue des signes Américaine.\n -détecteur de port de masque anti-Covid19.")
     
     st.text('\nStreamLit permet de créer l\'interface utilisateur graphique Web (GUI)')
-    cap.release()
     cv2.destroyAllWindows()
+
 
     ## Add Sidebar and Window style
     st.markdown(
@@ -157,7 +158,11 @@ elif app_mode == 'Selfi':
     st.sidebar.markdown('---')
     st.sidebar.markdown('Photos prises')
     m.selfi()
+
+
+elif app_mode == 'Détecteur de port de masque':
+    st.empty()
+    m.maskDetection()
     
-
-
-  
+cap.release()
+cv2.destroyAllWindows()

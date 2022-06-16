@@ -1,12 +1,9 @@
 import cv2
-from pyparsing import str_type
 import streamlit as st
-import numpy as np
 import cv2 as cv
 import pygame
-import mediapipe as mp
-import matplotlib.pyplot as plt
-
+from tensorflow.keras.models import load_model
+from face_detector import detect_mask_video as detectMask
 from ASL_Alphabet import prediction
 import Hand_detection_func as hdf
 
@@ -40,7 +37,8 @@ def modeSimple():
         
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-    
+    cap.release()
+    cap.destroyAllWindows()
 
 
 
@@ -77,7 +75,9 @@ def modeCompliquer():
     
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-
+    
+    cap.release()
+    cap.destroyAllWindows()
 
 
 def alphabet():
@@ -102,6 +102,9 @@ def alphabet():
                 
         if cv2.waitKey(5) & 0xFF == 27: #press escape to break
             break
+
+    cap.release()
+    cap.destroyAllWindows()
 
 
 
@@ -282,3 +285,40 @@ def selfi():
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         stframe.image(gray)
+
+
+def maskDetection():
+    # load our serialized face detector model from disk
+    prototxtPath = r"face_detector\deploy.prototxt"
+    weightsPath = r"face_detector\res10_300x300_ssd_iter_140000.caffemodel"
+    faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
+
+    # load the face mask detector model from disk
+    maskNet = load_model("face_detector/mask_detector.model")
+
+    while cap.isOpened():
+        success, image = cap.read()
+        if not success:
+            print("Ignoring empty camera frame.")
+            continue
+
+        (locs, preds) = detectMask.detect_and_predict_mask(image, faceNet, maskNet)
+
+        for (box, pred) in zip(locs, preds):
+            (startX, startY, endX, endY) = box
+            (mask, withoutMask) = pred
+
+            label = "Mask" if mask > withoutMask else "No Mask"
+            color = (0, 255, 0) if label == "Mask" else (0, 0, 255)
+
+            label = "{}: {:.2f}%".format(label, max(mask, withoutMask) * 100)
+
+            cv2.putText(image, label, (startX, startY - 10),
+			    cv2.FONT_HERSHEY_SIMPLEX, 2, color, 2)
+            cv2.rectangle(image, (startX, startY), (endX, endY), color, 2)
+
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        stframe.image(gray)
+    
+    cap.release()
+    cap.destroyAllWindows()
